@@ -1,43 +1,51 @@
 
+# https://directory.fsf.org/wiki/Make
+# https://www.gnu.org/software/make/manual/html_node/index.html
+
 CFLAGS   = -Wall -Wextra -Werror
 CPPFLAGS = -I./include/
-
-HEAD = \
-	./include/ft_ping.h
+LDFLAGS  =
+LDLIBS   =
 
 CC = gcc
 
 NAME = ft_ping
 
-SRC_PATH = ./src
+
+
+HEADER = \
+	./include/ft_ping.h
+
+SRC_DIR = ./src
 
 SRC_NAME = \
 	ft_ping.c
 
-SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+SRC = $(addprefix $(SRC_DIR)/,$(SRC_NAME))
 
-OBJ_PATH = ./obj
+OBJ_DIR = ./obj
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
-OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+OBJ = $(addprefix $(OBJ_DIR)/,$(OBJ_NAME))
 
 
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(LDFLAGS) $(OBJ)
+	$(CC) -o $(NAME) $(OBJ)
+#	$(CC) -o $(NAME) $(LDFLAGS) $(OBJ) $(LD_LIBS)
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEAD) | $(OBJ_PATH)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
 	$(CC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $<
 
-$(OBJ_PATH):
-	mkdir $(OBJ_PATH)
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
 
 clean:
 	rm -f $(OBJ)
-	rm -df $(OBJ_PATH)
+	rm -df $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
