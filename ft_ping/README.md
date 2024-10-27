@@ -3,10 +3,16 @@
 
 [Internet Engineering Task Force — Request For Comments 792 — Internet Control Message Protocol](https://www.ietf.org/rfc/rfc792.html#page-14)  
 
-https://www.gnu.org/software/inetutils/  
-https://directory.fsf.org/wiki/Inetutils  
-https://git.savannah.gnu.org/cgit/inetutils.git/tree/ping  
+https://manpages.debian.org/wheezy/inetutils-ping/ping.8.en.html  
 
+https://directory.fsf.org/wiki/Inetutils  
+https://www.gnu.org/software/inetutils/  
+https://www.gnu.org/software/inetutils/manual/html_node/ping-invocation.html  
+https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=tree;f=ping;hb=HEAD  
+
+https://directory.fsf.org/wiki/Libc  
+https://www.gnu.org/software/libc/  
+https://sourceware.org/glibc/manual/latest/html_node/Argp.html  
 https://sourceware.org/git/?p=glibc.git;a=tree;f=argp;hb=HEAD  
 https://sourceware.org/git/?p=glibc.git;a=blob;f=argp/argp-parse.c;hb=HEAD#l860  
 
