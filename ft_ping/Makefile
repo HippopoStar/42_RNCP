@@ -14,12 +14,14 @@ NAME = ft_ping
 
 
 HEADER = \
-	./include/ft_ping.h
+	./include/ft_ping.h \
+	./include/ft_ping_options.h
 
 SRC_DIR = ./src
 
 SRC_NAME = \
-	ft_ping.c
+	ft_ping.c \
+	ft_ping_options.c
 
 SRC = $(addprefix $(SRC_DIR)/,$(SRC_NAME))
 

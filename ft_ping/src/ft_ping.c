@@ -1,37 +1,69 @@
 
 #include "ft_ping.h"
+#include "ft_ping_options.h"
 
 #include <getopt.h>
+#include <stdio.h>
+#include <string.h>
 
-/* Define keys for long options that do not have short counterparts. */
-enum
+static void
+init_args(t_args *args)
 {
-	ARG_TTL = 256,
-	ARG_IPTIMESTAMP,
-};
+	args->preload = 0;
+	args->timeout = -1;
+	args->linger = MAXWAIT;
+	args->pattern_len = MAXPATTERN;
+	memset(args->pattern, '\0', MAXPATTERN);
+	args->data_length = PING_DATALEN;
+	args->tos = -1;
+	args->ttl = 0;
+	args->socket_type = 0;
+	args->options = 0;
+	args->suboptions = 0;
+}
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
-	(void)argc; // TODO
-	(void)argv; // TODO
-	static struct option long_options[] =
+	int    c;
+	int    option_index;
+	t_args args;
+
+	init_args(&args);
+	while (!(-1 == (c = getopt_long(argc, argv, "vfl:nw:W:p:rs:T:", get_long_options(), &option_index))))
+	{
+		printf("option -%c\n", c);
+		switch (c)
 		{
-			/* These options do not set a flag.
-			*  We distinguish them by their indices. */
-			{"verbose",        no_argument,       0, 'v'},
-			{"flood",          no_argument,       0, 'f'},
-			{"preload",        required_argument, 0, 'l'},
-			{"numeric",        no_argument,       0, 'n'},
-			{"timeout",        required_argument, 0, 'w'},
-			{"linger",         required_argument, 0, 'W'},
-			{"pattern",        required_argument, 0, 'p'},
-			{"ignore-routing", no_argument,       0, 'r'},
-			{"size",           required_argument, 0, 's'},
-			{"tos",            required_argument, 0, 'T'},
-			{"ttl",            required_argument, 0, ARG_TTL},
-			{"ip-timestamp",   required_argument, 0, ARG_IPTIMESTAMP},
-			{0, 0, 0, 0}
-		};
-	(void)long_options; // TODO
+			case 'v':
+				break;
+			case 'f':
+				break;
+			case 'l':
+				break;
+			case 'n':
+				break;
+			case 'w':
+				break;
+			case 'W':
+				break;
+			case 'p':
+				break;
+			case 'r':
+				break;
+			case 's':
+				break;
+			case 'T':
+				break;
+			case ARG_TTL:
+				break;
+			case ARG_IPTIMESTAMP:
+				break;
+			case '?':
+				break;
+			default:
+				break;
+		}
+	}
 	return (0);
 }

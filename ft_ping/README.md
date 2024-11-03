@@ -13,6 +13,7 @@ https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=tree;f=ping;hb=HEAD
 https://directory.fsf.org/wiki/Libc  
 https://www.gnu.org/software/libc/  
 https://sourceware.org/glibc/manual/latest/html_node/Argp.html  
+https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/bits/getopt_ext.h;hb=HEAD  
 https://sourceware.org/git/?p=glibc.git;a=tree;f=argp;hb=HEAD  
 https://sourceware.org/git/?p=glibc.git;a=blob;f=argp/argp-parse.c;hb=HEAD#l860  
 
