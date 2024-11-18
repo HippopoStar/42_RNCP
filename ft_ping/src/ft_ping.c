@@ -11,6 +11,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#define XSTR(S) STR(S)
+#define STR(s) #s
+
 /*
 ** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/File_002dScope-Variables.html
 ** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/volatile.html
@@ -43,6 +46,64 @@ init_args(t_args *args)
 		0,            /* options */
 		0             /* suboptions */
 	};
+}
+
+/*
+** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Stringification.html
+*/
+static void
+print_args(t_args *args)
+{
+	size_t i;
+
+	fprintf(stderr,
+		"{\n"
+		"\t.preload = %lu\n"
+		"\t.timeout = %d\n"
+		"\t.linger = %d\n"
+		"\t.pattern = [%." XSTR(MAXPATTERN) "s]\n"
+		"\t.patptr = %p\n"
+		"\t.pattern_len = %d\n"
+		"\t.data_buffer = %p\n"
+		"\t.data_length = %zu\n"
+		"\t.tos = %d\n"
+		"\t.ttl = %d\n"
+		"\t.socket_type = %d\n"
+		"\t.options = %#.8x\n"
+		"\t.suboptions = %#.8x\n"
+		"}\n",
+		args->preload,
+		args->timeout,
+		args->linger,
+		args->pattern,
+		args->patptr,
+		args->pattern_len,
+		args->data_buffer,
+		args->data_length,
+		args->tos,
+		args->ttl,
+		args->socket_type,
+		args->options,
+		args->suboptions
+	);
+	if (!(NULL == args->patptr))
+	{
+		fprintf(stderr, "pattern content: [");
+		for (i = 0; i < MAXPATTERN; i++)
+		{
+			fprintf(stderr, "%02hhx", args->pattern[i]);
+		}
+		fprintf(stderr, "]\n");
+	}
+	if (!(NULL == args->data_buffer))
+	{
+		fprintf(stderr, "data_buffer content: [");
+		for (i = 0; i < args->data_length; i++)
+		{
+			fprintf(stderr, "%02hhx", args->data_buffer[i]);
+		}
+		fprintf(stderr, "]\n");
+	}
 }
 
 static void
@@ -324,6 +385,7 @@ main(int argc, char **argv)
 	{
 		if (ping_setup(&args))
 		{
+			print_args(&args);
 			ping_run(&args);
 		}
 		free_dynamically_allocated_memory(&args);

@@ -23,3 +23,15 @@ https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/arc
 curl -C - -L -O https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.0.0-live+nonfree/amd64/iso-hybrid/debian-live-7.0.0-amd64-standard+nonfree.iso
 ```
 
+```
+# Test cases
+./ft_ping -v -? 192.168.1.1
+./ft_ping -v -s 0 192.168.1.1
+./ft_ping -v -s 65400 192.168.1.1
+./ft_ping -v -p '' 192.168.1.1
+./ft_ping -v -p '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a' 192.168.1.1
+./ft_ping -v -p '4142434445464748494a4b4c4d4e4f50' 192.168.1.1
+./ft_ping -v -p '3031323334353637383941424344454621' 192.168.1.1
+
+./ft_ping -v -s 0 -p '2a' 192.168.1.1
+```
