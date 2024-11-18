@@ -25,8 +25,10 @@ typedef struct    s_args
 	unsigned long preload;             /* default value: 0           ; max value: INT_MAX */
 	int           timeout;             /* default value: -1          ; max value: INT_MAX */
 	int           linger;              /* default value: MAXWAIT     ; max value: INT_MAX */
-	int           pattern_len;         /* default value: MAXPATTERN  ; */
 	unsigned char pattern[MAXPATTERN];
+	unsigned char *patptr;
+	int           pattern_len;         /* default value: MAXPATTERN  ; */
+	unsigned char *data_buffer;
 	size_t        data_length;         /* default value: PING_DATALEN; max value: PING_MAX_DATALEN */
 	int           tos;                 /* default value: -1          ; max value: 255 */
 	int           ttl;                 /* default value: 0           ; max value: 255 */

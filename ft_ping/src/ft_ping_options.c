@@ -28,5 +28,3 @@ get_long_options(void)
 		};
 	return (long_options);
 }
-
-// atoi
