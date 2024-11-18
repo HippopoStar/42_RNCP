@@ -70,11 +70,26 @@ init_data_buffer(unsigned char **data_buffer, size_t data_length, unsigned char 
 			fprintf(stderr, "memory exhausted\n");
 			return (NULL);
 		}
-		i = 0;
-		while (i < data_length)
+		if (NULL == patptr)
 		{
-			(*data_buffer)[i] = (NULL == patptr) ? i : patptr[i % pattern_len];
-			i++;
+			for (i = 0; i < data_length; i++)
+			{
+				(*data_buffer)[i] = i;
+			}
+		}
+		else if (0 == pattern_len)
+		{
+			for (i = 0; i < data_length; i++)
+			{
+				(*data_buffer)[i] = '\0';
+			}
+		}
+		else
+		{
+			for (i = 0; i < data_length; i++)
+			{
+				(*data_buffer)[i] = patptr[i % pattern_len];
+			}
 		}
 	}
 	return (*data_buffer);
