@@ -28,6 +28,9 @@ sig_int_handler(int signal)
 	stop = 1;
 }
 
+/*
+** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Initializers.html
+*/
 static void
 init_args(t_args *args)
 {
@@ -324,7 +327,7 @@ main(int argc, char **argv)
 	while (
 		!(
 			has_error
-			|| -1 == (c = getopt_long(argc, argv, "vfl:nw:W:p:rs:T:", get_long_options(), &option_index))
+			|| -1 == (c = getopt_long(argc, argv, "vfl:nw:W:p:rs:T:", *get_long_options(), &option_index))
 		)
 	)
 	{

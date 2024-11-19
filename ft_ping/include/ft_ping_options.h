@@ -11,6 +11,6 @@ enum
 	ARG_IPTIMESTAMP,
 };
 
-const struct option *get_long_options(void);
+const struct option (*get_long_options(void))[];
 
 #endif /* FT_PING_OPTIONS_H */
