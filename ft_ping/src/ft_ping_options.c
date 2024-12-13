@@ -1,9 +1,6 @@
 
 #include "ft_ping_options.h"
 
-#include <getopt.h>
-#include <stdlib.h>
-
 /*
 ** The disability for a function to return an array is explained through the
 ** consideration that from the caller perspective, the assignment operator would
