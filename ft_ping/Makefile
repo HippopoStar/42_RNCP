@@ -43,7 +43,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) -o $(NAME) $(OBJ)
-#	$(CC) -o $(NAME) $(LDFLAGS) $(OBJ) $(LD_LIBS)
+#	$(CC) -o $(NAME) $(LDFLAGS) $(OBJ) $(LDLIBS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
 	$(CC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $<

@@ -1,7 +1,7 @@
 #ifndef FT_PING_ARGS_H
 # define FT_PING_ARGS_H
 
-#include <sys/socket.h>
+# include <sys/socket.h>
 
 # include <limits.h>
 # include <string.h>

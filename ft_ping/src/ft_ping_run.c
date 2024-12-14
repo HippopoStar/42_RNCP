@@ -19,6 +19,26 @@ sig_int_handler(int signal)
 	stop = 1;
 }
 
+static void
+interruption_signal_handler_setup(struct sigaction *old_action, struct sigaction *new_action)
+{
+	new_action->sa_handler = sig_int_handler;
+	sigemptyset(&(new_action->sa_mask));
+	new_action->sa_flags = 0;
+
+	sigaction(SIGINT, NULL, old_action);
+	if (old_action->sa_handler != SIG_IGN)
+	{
+		sigaction(SIGINT, new_action, NULL);
+	}
+}
+
+static void
+interruption_signal_handler_teardown(struct sigaction *old_action)
+{
+	sigaction(SIGINT, old_action, NULL);
+}
+
 void
 ping_run(t_args *args)
 {
@@ -27,20 +47,12 @@ ping_run(t_args *args)
 	struct sigaction old_action;
 	struct sigaction new_action;
 
-	new_action.sa_handler = sig_int_handler;
-	sigemptyset(&new_action.sa_mask);
-	new_action.sa_flags = 0;
-
-	sigaction(SIGINT, NULL, &old_action);
-	if (old_action.sa_handler != SIG_IGN)
-	{
-		sigaction (SIGINT, &new_action, NULL);
-	}
-
+	interruption_signal_handler_setup(&old_action, &new_action);
 	while(!stop)
 	{
 		write(1, ".", 1);
 		sleep(1);
 	}
 	printf("\n");
+	interruption_signal_handler_teardown(&old_action);
 }
