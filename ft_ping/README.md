@@ -10,6 +10,13 @@ https://www.gnu.org/software/inetutils/
 https://www.gnu.org/software/inetutils/manual/html_node/ping-invocation.html  
 https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=tree;f=ping;hb=HEAD  
 
+https://directory.fsf.org/wiki/Gnulib  
+https://www.gnu.org/software/gnulib/  
+https://www.gnu.org/software/gnulib/manual/html_node/program_005finvocation_005fname.html  
+https://www.gnu.org/software/gnulib/manual/html_node/progname-and-getprogname.html  
+https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/progname.h;hb=HEAD  
+https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/progname.c;hb=HEAD  
+
 https://directory.fsf.org/wiki/Libc  
 https://www.gnu.org/software/libc/  
 https://sourceware.org/glibc/manual/latest/html_node/Argp.html  

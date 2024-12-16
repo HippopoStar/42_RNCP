@@ -1,4 +1,5 @@
 
+#include "ft_log.h"
 #include "ft_ping_args.h"
 
 #include <stdio.h>
@@ -113,12 +114,12 @@ parse_optarg_preload(t_args *args, const char *optarg, int *has_error)
 	n = strtoul(optarg, &endptr, 0);
 	if (*endptr || INT_MAX < n)
 	{
-		fprintf(stderr, "invalid preload value (%s)\n", optarg);
+		FT_LOG_ERROR("invalid preload value (%s)", optarg);
 		*has_error = 1;
 	}
 	else if ((3 < n) && !is_root(args))
 	{
-		fprintf(stderr, "preload value shall not exceed 3 (super-user privileges required above that threshold)\n");
+		FT_LOG_ERROR("preload value shall not exceed 3 (super-user privileges required above that threshold)");
 		*has_error = 1;
 	}
 	else
@@ -148,7 +149,7 @@ parse_optarg_pattern(t_args *args, const char *optarg, int *has_error)
 	{
 		if (1 != sscanf(&optarg[off_acc], "%2x%n", &c, &off))
 		{
-			fprintf(stderr, "error in pattern near %s\n", &optarg[off_acc]);
+			FT_LOG_ERROR("error in pattern near %s", &optarg[off_acc]);
 			*has_error = 1;
 		}
 		args->pattern[i] = c;
@@ -174,7 +175,7 @@ parse_optarg_ip_timestamp(const char *optarg, int *has_error)
 		sopt = SOPT_TSADDR;
 	else
 	{
-		fprintf(stderr, "unsupported timestamp type: %s\n", optarg);
+		FT_LOG_ERROR("unsupported timestamp type: %s", optarg);
 		*has_error = 1;
 	}
 	return (sopt);
@@ -189,17 +190,17 @@ parse_optarg_number(const char *optarg, size_t maxval, int allow_zero, int *has_
 	n = strtoul(optarg, &p, 0);
 	if (*p)
 	{
-		fprintf(stderr, "invalid value ('%s' near '%s')\n", optarg, p);
+		FT_LOG_ERROR("invalid value ('%s' near '%s')", optarg, p);
 		*has_error = 1;
 	}
 	if (0 == n && !allow_zero)
 	{
-		fprintf(stderr, "option value too small: %s\n", optarg);
+		FT_LOG_ERROR("option value too small: %s", optarg);
 		*has_error = 1;
 	}
 	if (0 != maxval && maxval < n)
 	{
-		fprintf(stderr, "option value too big: %s\n", optarg);
+		FT_LOG_ERROR("option value too big: %s", optarg);
 		*has_error = 1;
 	}
 	return n;

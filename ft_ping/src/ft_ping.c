@@ -1,8 +1,6 @@
 
 #include "ft_ping.h"
 
-#include <stdio.h>
-
 int
 main(int argc, char **argv)
 {
@@ -11,6 +9,7 @@ main(int argc, char **argv)
 	int    option_index;
 	t_args args;
 
+	ft_log_init(argv[0]);
 	init_args(&args);
 	has_error = 0;
 	while (
@@ -20,7 +19,7 @@ main(int argc, char **argv)
 		)
 	)
 	{
-		printf("option -%c\n", c);
+		FT_LOG_DEBUG("option -%c", c);
 		switch (c)
 		{
 			case 'v':
@@ -64,23 +63,24 @@ main(int argc, char **argv)
 				has_error = 1;
 				break;
 			default:
-				fprintf(stderr, "an unknown error occured\n");
+				FT_LOG_ERROR("an unknown error occured");
 				has_error = 1;
 				break;
 		}
 	}
 	if (optind == argc)
 	{
-		fprintf(stderr, "missing host operand\n");
+		FT_LOG_ERROR("missing host operand");
 	}
 	else if (!has_error)
 	{
-		if (ping_setup(&args))
+		if (ping_args_setup(&args))
 		{
 			print_args(&args);
 			ping_run(&args);
+			// ping_process(&args, argc - option_index, argv + option_index);
 		}
-		ping_teardown(&args);
+		ping_args_teardown(&args);
 	}
 	return (0);
 }

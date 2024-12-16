@@ -1,7 +1,7 @@
 
-#include "ft_ping_setup_teardown.h"
+#include "ft_log.h"
+#include "ft_ping_args_setup_teardown.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 static void
@@ -14,7 +14,7 @@ free_dynamically_allocated_memory(t_args *args)
 }
 
 void
-ping_teardown(t_args *args)
+ping_args_teardown(t_args *args)
 {
 	free_dynamically_allocated_memory(args);
 }
@@ -32,7 +32,7 @@ init_data_buffer(unsigned char **data_buffer, size_t data_length, unsigned char 
 	{
 		if (NULL == (*data_buffer = (unsigned char *)malloc(data_length * sizeof(unsigned char))))
 		{
-			fprintf(stderr, "memory exhausted\n");
+			FT_LOG_ERROR("memory exhausted");
 			return (NULL);
 		}
 		if (NULL == patptr)
@@ -61,7 +61,7 @@ init_data_buffer(unsigned char **data_buffer, size_t data_length, unsigned char 
 }
 
 int
-ping_setup(t_args *args)
+ping_args_setup(t_args *args)
 {
 	if (
 		0 == args->data_length

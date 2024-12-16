@@ -2,8 +2,11 @@
 # https://directory.fsf.org/wiki/Make
 # https://www.gnu.org/software/make/manual/html_node/index.html
 
+# https://gcc.gnu.org/onlinedocs/gcc/Preprocessor-Options.html
+# cpp -I./include/ -DDEBUG <file>
+
 CFLAGS   = -Wall -Wextra -Werror
-CPPFLAGS = -I./include/
+CPPFLAGS = -I./include/ # -DDEBUG
 LDFLAGS  =
 LDLIBS   =
 
@@ -14,20 +17,22 @@ NAME = ft_ping
 
 
 HEADER = \
-	./include/ft_ping.h \
-	./include/ft_ping_options.h \
+	./include/ft_log.h \
 	./include/ft_ping_args.h \
-	./include/ft_ping_setup_teardown.h \
-	./include/ft_ping_run.h
+	./include/ft_ping_args_setup_teardown.h \
+	./include/ft_ping_options.h \
+	./include/ft_ping_run.h \
+	./include/ft_ping.h
 
 SRC_DIR = ./src
 
 SRC_NAME = \
-	ft_ping.c \
-	ft_ping_options.c \
+	ft_log.c \
 	ft_ping_args.c \
-	ft_ping_setup_teardown.c \
-	ft_ping_run.c
+	ft_ping_args_setup_teardown.c \
+	ft_ping_options.c \
+	ft_ping_run.c \
+	ft_ping.c
 
 SRC = $(addprefix $(SRC_DIR)/,$(SRC_NAME))
 

@@ -2,7 +2,6 @@
 #include "ft_ping_run.h"
 
 #include <signal.h>
-#include <stdio.h>
 #include <unistd.h>
 
 /*
@@ -53,6 +52,6 @@ ping_run(t_args *args)
 		write(1, ".", 1);
 		sleep(1);
 	}
-	printf("\n");
+	write(1, "\n", 1);
 	interruption_signal_handler_teardown(&old_action);
 }
