@@ -38,10 +38,12 @@ interruption_signal_handler_teardown(struct sigaction *old_action)
 	sigaction(SIGINT, old_action, NULL);
 }
 
-void
-ping_run(t_args *args)
+int
+ping_run(t_args *args, struct ping_data *ping, int (*finish)(t_args *args, struct ping_data *ping))
 {
 	(void)args;
+	(void)ping;
+	(void)finish;
 
 	struct sigaction old_action;
 	struct sigaction new_action;
@@ -54,4 +56,5 @@ ping_run(t_args *args)
 	}
 	write(1, "\n", 1);
 	interruption_signal_handler_teardown(&old_action);
+	return (0);
 }

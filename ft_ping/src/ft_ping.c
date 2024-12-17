@@ -77,8 +77,7 @@ main(int argc, char **argv)
 		if (ping_args_setup(&args))
 		{
 			print_args(&args);
-			ping_run(&args);
-			// ping_process(&args, argc - option_index, argv + option_index);
+			ping_process(&args, argc - option_index, argv + option_index);
 		}
 		ping_args_teardown(&args);
 	}

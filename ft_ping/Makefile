@@ -6,7 +6,7 @@
 # cpp -I./include/ -DDEBUG <file>
 
 CFLAGS   = -Wall -Wextra -Werror
-CPPFLAGS = -I./include/ # -DDEBUG
+CPPFLAGS = -I./include/ -DDEBUG
 LDFLAGS  =
 LDLIBS   =
 
@@ -18,9 +18,14 @@ NAME = ft_ping
 
 HEADER = \
 	./include/ft_log.h \
-	./include/ft_ping_args.h \
 	./include/ft_ping_args_setup_teardown.h \
+	./include/ft_ping_args.h \
+	./include/ft_ping_data_setup_teardown.h \
+	./include/ft_ping_data.h \
+	./include/ft_ping_echo_display.h \
+	./include/ft_ping_echo.h \
 	./include/ft_ping_options.h \
+	./include/ft_ping_process.h \
 	./include/ft_ping_run.h \
 	./include/ft_ping.h
 
@@ -28,9 +33,14 @@ SRC_DIR = ./src
 
 SRC_NAME = \
 	ft_log.c \
-	ft_ping_args.c \
 	ft_ping_args_setup_teardown.c \
+	ft_ping_args.c \
+	ft_ping_data_setup_teardown.c \
+	ft_ping_data.c \
+	ft_ping_echo_display.c \
+	ft_ping_echo.c \
 	ft_ping_options.c \
+	ft_ping_process.c \
 	ft_ping_run.c \
 	ft_ping.c
 
