@@ -32,12 +32,21 @@ ping_unset_data(struct ping_data *p)
 void
 ping_data_teardown(struct ping_data *p)
 {
+	/*
+	** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping.c;hb=HEAD#l473
+	*/
 	ping_unset_data(p);
 	if (!(p->ping_fd < 0))
 	{
-		close(p->ping_fd); // TODO: ensure
+		/*
+		** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/libping.c;hb=HEAD#l110
+		*/
+		close(p->ping_fd);
 		p->ping_fd = -1;
 	}
+	/*
+	** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_echo.c;hb=HEAD#l151
+	*/
 	if (!(NULL == p->ping_hostname))
 	{
 		free(p->ping_hostname);
@@ -94,6 +103,7 @@ ping_open_socket(void)
 		}
 		else
 		{
+			FT_LOG_ERROR("Unable to open socket");
 			return (fd);
 		}
 	}
@@ -127,8 +137,13 @@ ping_init(struct ping_data *p, int type, int ident)
 int
 ping_data_setup(struct ping_data *p)
 {
-	int ret_val;
-
-	ret_val = ping_init(p, ICMP_ECHO, getpid());
-	return (ret_val);
+	/*
+	** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping.c;hb=HEAD#l287
+	** https://sourceware.org/git/?p=glibc.git;a=blob;f=locale/programs/xmalloc.c;hb=HEAD#l46
+	*/
+	return (
+		ping_init(p, ICMP_ECHO, getpid())
+		? 0
+		: 4
+	);
 }

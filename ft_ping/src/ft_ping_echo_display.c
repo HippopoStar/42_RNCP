@@ -137,6 +137,11 @@ struct icmp_diag
 	{ICMP_ADDRESSREPLY, "Address Mask Reply", NULL, NULL},
 };
 
+/*
+** Return values:
+** 0: memory exhausted
+** 1: OK
+*/
 int
 print_ip_opt(unsigned int options, struct ip *ip, int hlen)
 {
@@ -182,7 +187,7 @@ print_ip_opt(unsigned int options, struct ip *ip, int hlen)
 			// 				ina.s_addr = htonl(l);
 			// 				if (NULL == (s = sinaddr2str(options, ina)))
 			// 				{
-			// 					return (ERROR_OUT_OF_MEMORY);
+			// 					return (0);
 			// 				}
 			// 				printf ("\t%s", s);
 			// 				free(s);
@@ -255,7 +260,7 @@ print_ip_opt(unsigned int options, struct ip *ip, int hlen)
 			// 			ina.s_addr = htonl(l);
 			// 			if (NULL == (s = sinaddr2str(options, ina)))
 			// 			{
-			// 				return (ERROR_OUT_OF_MEMORY);
+			// 				return (0);
 			// 			}
 			// 			printf("\t%s", s);
 			// 			free(s);
@@ -310,7 +315,7 @@ print_ip_opt(unsigned int options, struct ip *ip, int hlen)
 						ina.s_addr = *((in_addr_t *)cp);
 						if (NULL == (s = sinaddr2str(options, ina)))
 						{
-							return (ERROR_OUT_OF_MEMORY);
+							return (0);
 						}
 						printf("\t%s", s);
 						free(s);
@@ -359,7 +364,7 @@ print_ip_opt(unsigned int options, struct ip *ip, int hlen)
 				break;
 		} /* switch */
 	} /* for */
-	return (0);
+	return (1);
 }
 
 /*
@@ -448,9 +453,9 @@ print_echo(
 		printf(" (DUP!)");
 	}
 
-	if (ERROR_OUT_OF_MEMORY == print_ip_opt(options, ip, hlen))
+	if (!print_ip_opt(options, ip, hlen))
 	{
-		return (ERROR_OUT_OF_MEMORY);
+		return (ERROR_MEMORY_EXHAUSTED);
 	}
 	printf("\n");
 
@@ -622,7 +627,7 @@ print_icmp_header(
 
 	if (NULL == (s = ipaddr2str(options, (struct sockaddr *)from, sizeof(struct sockaddr_in))))
 	{
-		return (ERROR_OUT_OF_MEMORY);
+		return (ERROR_MEMORY_EXHAUSTED);
 	}
 	printf("%d bytes from %s: ", len - hlen, s);
 	free(s);

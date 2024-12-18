@@ -28,6 +28,7 @@ interruption_signal_handler_setup(struct sigaction *old_action, struct sigaction
 	sigaction(SIGINT, NULL, old_action);
 	if (old_action->sa_handler != SIG_IGN)
 	{
+		stop = 0;
 		sigaction(SIGINT, new_action, NULL);
 	}
 }

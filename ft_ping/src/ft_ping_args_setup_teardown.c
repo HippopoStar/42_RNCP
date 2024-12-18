@@ -1,5 +1,6 @@
 
 #include "ft_log.h"
+#include "ft_memory.h"
 #include "ft_ping_args_setup_teardown.h"
 
 #include <stdlib.h>
@@ -20,20 +21,21 @@ ping_args_teardown(t_args *args)
 }
 
 /*
-** data_buffer pointer must be initialized to NULL and passed by address.
-** Returns NULL if data_length == 0 or on allocation failure.
+** If 0 == data_length, data_buffer will be left as is
+** Return values:
+** 0: memory exhausted
+** 1: OK (either allocation success or 0 == data_length)
 */
-static unsigned char *
+static int
 init_data_buffer(unsigned char **data_buffer, size_t data_length, unsigned char *patptr, size_t pattern_len)
 {
 	size_t i;
 
 	if (0 < data_length)
 	{
-		if (NULL == (*data_buffer = (unsigned char *)malloc(data_length * sizeof(unsigned char))))
+		if (NULL == (*data_buffer = (unsigned char *)xmalloc(data_length * sizeof(unsigned char))))
 		{
-			FT_LOG_ERROR("memory exhausted");
-			return (NULL);
+			return (0);
 		}
 		if (NULL == patptr)
 		{
@@ -57,18 +59,15 @@ init_data_buffer(unsigned char **data_buffer, size_t data_length, unsigned char 
 			}
 		}
 	}
-	return (*data_buffer);
+	return (1);
 }
 
 int
 ping_args_setup(t_args *args)
 {
-	if (
-		0 == args->data_length
-		|| !(NULL == init_data_buffer(&(args->data_buffer), args->data_length, args->patptr, args->pattern_len))
-	)
-	{
-		return (1);
-	}
-	return (0);
+	return (
+		(init_data_buffer(&(args->data_buffer), args->data_length, args->patptr, args->pattern_len))
+			? 0
+			: ERROR_MEMORY_EXHAUSTED
+	);
 }

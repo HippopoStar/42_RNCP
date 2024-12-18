@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 void
-ping_process(t_args *args, int argc, char **argv)
+ping_process(t_args *args, int argc, char **argv, int *status)
 {
 	(void)args;
 	(void)argc;
@@ -14,10 +14,8 @@ ping_process(t_args *args, int argc, char **argv)
 
 	struct ping_data p;
 	int              i;
-	int              status;
 
-	status = 0;
-	if (ping_data_setup(&p))
+	if (!(*status = ping_data_setup(&p)))
 	{
 		i = 0;
 		/*
@@ -30,8 +28,9 @@ ping_process(t_args *args, int argc, char **argv)
 		** 0: nominal case
 		** 1: at least one of target hosts was unreachable
 		** 2: error
+		** 4: memory exhausted
 		*/
-		while (i < argc && (status |= ping_echo(args, &p, argv[i])) < 2)
+		while (i < argc && (*status |= ping_echo(args, &p, argv[i])) < 2)
 		{
 			i++;
 		}

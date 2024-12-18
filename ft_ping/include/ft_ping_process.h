@@ -5,6 +5,6 @@
 # include "ft_ping_args.h"
 
 void
-ping_process(t_args *args, int argc, char **argv);
+ping_process(t_args *args, int argc, char **argv, int *status);
 
 #endif /* FT_PING_PROCESS */

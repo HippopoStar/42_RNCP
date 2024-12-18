@@ -76,12 +76,12 @@ main(int argc, char **argv)
 	}
 	else if (!has_error)
 	{
-		if (ping_args_setup(&args))
+		if (!(has_error = ping_args_setup(&args)))
 		{
 			print_args(&args);
-			ping_process(&args, argc - optind, argv + optind);
+			ping_process(&args, argc - optind, argv + optind, &has_error);
 		}
 		ping_args_teardown(&args);
 	}
-	return (0);
+	return (has_error);
 }

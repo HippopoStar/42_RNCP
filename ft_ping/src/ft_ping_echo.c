@@ -24,7 +24,7 @@ handler(
 	int                datalen
 )
 {
-	int ret_val; /* Either ERROR_OUT_OF_MEMORY or 0 */
+	int ret_val; /* Either ERROR_MEMORY_EXHAUSTED or 0 */
 
 	switch (code)
 	{

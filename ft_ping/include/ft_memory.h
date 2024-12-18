@@ -4,7 +4,10 @@
 
 # include <string.h>
 
-# define ERROR_OUT_OF_MEMORY 4
+/*
+** https://sourceware.org/git/?p=glibc.git;a=blob;f=locale/programs/xmalloc.c;hb=HEAD#l46
+*/
+# define ERROR_MEMORY_EXHAUSTED 4
 
 void *
 xmalloc(size_t n);
