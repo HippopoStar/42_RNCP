@@ -1,25 +1,37 @@
 #ifndef FT_PING_ARGS_H
 # define FT_PING_ARGS_H
 
+# include "ft_ping_icmp.h"
+
 # include <sys/socket.h>
 
 # include <limits.h>
 # include <string.h>
 
-# define MAXWAIT          10                     /* Max seconds to wait for response. */
-# define MAXPATTERN       16                     /* Maximal length of pattern. */
-# define PING_HEADER_LEN  8                      /* ICMP_MINLEN (IPv4) */
-# define PING_DATALEN     (64 - PING_HEADER_LEN) /* default data length */
-# define MAXIPLEN         60
-# define MAXICMPLEN       76
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_impl.h;hb=HEAD#l19
+*/
 # define PING_MAX_DATALEN (65535 - MAXIPLEN - MAXICMPLEN)
 
-# define OPT_FLOOD       0x001
-# define OPT_NUMERIC     0x004
-# define OPT_VERBOSE     0x020
-# define OPT_IPTIMESTAMP 0x040
-# define SOPT_TSONLY     0x001
-# define SOPT_TSADDR     0x002
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l29
+*/
+# define MAXWAIT          10                     /* Max seconds to wait for response. */
+# define MAXPATTERN       16                     /* Maximal length of pattern. */
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l32
+*/
+# define OPT_FLOOD        0x001
+# define OPT_NUMERIC      0x004
+# define OPT_VERBOSE      0x020
+# define OPT_IPTIMESTAMP  0x040
+# define SOPT_TSONLY      0x001
+# define SOPT_TSADDR      0x002
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l64
+*/
+# define PING_HEADER_LEN  8                      /* ICMP_MINLEN (IPv4) */
+# define PING_DATALEN     (64 - PING_HEADER_LEN) /* default data length */
 
 typedef struct    s_args
 {

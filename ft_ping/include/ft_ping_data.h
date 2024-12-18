@@ -25,6 +25,9 @@
 # define IPOPT_TS_TSONLY       0    /* timestamps only */
 # define IPOPT_TS_TSANDADDR    1    /* timestamps and addresses */
 
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l54
+*/
 # define PEV_RESPONSE          0
 # define PEV_DUPLICATE         1
 # define PEV_NOECHO            2
@@ -204,6 +207,21 @@ struct ping_data
 };
 
 void
+ping_unset_data(struct ping_data *p);
+
+int
+ping_set_data(struct ping_data *p, void *data, size_t off, size_t len);
+
+void
+ping_set_count(struct ping_data *ping, size_t count);
+
+int
+ping_set_sockopt(struct ping_data *ping, int opt, void *val, int valsize);
+
+int
+ping_set_socket_fd(void);
+
+void
 ping_set_type(struct ping_data *ping, int type);
 
 void
@@ -214,6 +232,9 @@ ping_set_packetsize(struct ping_data *ping, size_t size);
 
 int
 ping_set_dest(struct ping_data *ping, const char *host);
+
+int
+ping_init(struct ping_data *p, int type, int ident);
 
 /*
 ** https://sourceware.org/git/?p=glibc.git;a=blob;f=inet/arpa/inet.h;hb=HEAD

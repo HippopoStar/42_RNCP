@@ -14,8 +14,9 @@ ping_process(t_args *args, int argc, char **argv, int *status)
 
 	struct ping_data p;
 	int              i;
+	int              one = 1;
 
-	if (!(*status = ping_data_setup(&p)))
+	if (!(*status = ping_data_setup(&p, args, &one)))
 	{
 		i = 0;
 		/*

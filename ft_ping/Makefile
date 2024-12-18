@@ -26,6 +26,7 @@ HEADER = \
 	./include/ft_ping_data.h \
 	./include/ft_ping_echo_display.h \
 	./include/ft_ping_echo.h \
+	./include/ft_ping_icmp.h \
 	./include/ft_ping_options.h \
 	./include/ft_ping_process.h \
 	./include/ft_ping_run.h \

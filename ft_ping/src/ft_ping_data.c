@@ -1,5 +1,146 @@
 
-# include "ft_ping_data.h"
+#include "ft_log.h"
+#include "ft_memory.h"
+#include "ft_ping_data.h"
+#include "ft_ping_icmp.h"
+
+#include <sys/socket.h>
+
+#include <errno.h>
+#include <stdlib.h>
+
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.c;hb=HEAD#l222
+*/
+void
+ping_unset_data(struct ping_data *p)
+{
+	if (!(NULL == p->ping_buffer))
+	{
+		free(p->ping_buffer);
+		p->ping_buffer = NULL;
+	}
+	if (!(NULL == p->ping_cktab))
+	{
+		free(p->ping_cktab);
+		p->ping_cktab = NULL;
+	}
+}
+
+static int
+ping_setbuf(struct ping_data *p)
+{
+	if (NULL == p->ping_buffer)
+	{
+		if (NULL == (p->ping_buffer = xmalloc ((MAXIPLEN + p->ping_datalen + ICMP_TSLEN) * sizeof(unsigned char))))
+		{
+			return (-1);
+		}
+	}
+	if (NULL == p->ping_cktab)
+	{
+		if (NULL == (p->ping_cktab = xmalloc (p->ping_cktab_size * sizeof(char))))
+		{
+			return (-1);
+		}
+		memset (p->ping_cktab, 0, p->ping_cktab_size);
+	}
+	return (0);
+}
+
+int
+ping_set_data(struct ping_data *p, void *data, size_t off, size_t len)
+{
+	struct icmp_header *icmp;
+
+	if (ping_setbuf (p))
+	{
+		return -1;
+	}
+	if (p->ping_datalen < off + len)
+	{
+		return -1;
+	}
+
+	icmp = (struct icmp_header *) p->ping_buffer;
+	memcpy (icmp->icmp_data + off, data, len);
+
+	return 0;
+}
+
+void
+ping_set_count(struct ping_data *ping, size_t count)
+{
+	ping->ping_count = count;
+}
+
+int
+ping_set_sockopt(struct ping_data *ping, int opt, void *val, int valsize)
+{
+	int ret_val;
+
+	if (!(0 == (ret_val = setsockopt (ping->ping_fd, SOL_SOCKET, opt, (char *) &val, valsize))))
+	{
+		FT_LOG_ERROR("Unable to set socket option");
+	}
+	return (ret_val);
+}
+
+int
+ping_set_socket_fd(void)
+{
+	int             fd;
+	struct protoent *proto;
+
+	/* Initialize raw ICMP socket */
+	proto = getprotobyname("icmp");
+	if (!proto)
+	{
+		FT_LOG_ERROR("ping: unknown protocol icmp.");
+		return (-1);
+	}
+
+	fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
+	if (fd < 0)
+	{
+		if (errno == EPERM || errno == EACCES)
+		{
+			errno = 0;
+
+			/*
+			** At least Linux can allow subprivileged users to send ICMP
+			** packets formally encapsulated and built as a datagram socket,
+			** but then the identity number is set by the kernel itself.
+			*/
+			fd = socket(AF_INET, SOCK_DGRAM, proto->p_proto);
+			if (fd < 0)
+			{
+				if (
+					errno == EPERM
+					|| errno == EACCES
+					|| errno == EPROTONOSUPPORT
+				)
+				{
+					FT_LOG_ERROR("ping: Lacking privilege for icmp socket.");
+				}
+				else
+				{
+					FT_LOG_ERROR("ping: %s", strerror(errno));
+				}
+
+				return (fd);
+			}
+
+			// useless_ident++; /* SOCK_DGRAM overrides our set identity. */ TODO
+		}
+		else
+		{
+			FT_LOG_ERROR("Unable to open socket");
+			return (fd);
+		}
+	}
+	return (fd);
+}
 
 void
 ping_set_type(struct ping_data *ping, int type)
@@ -123,6 +264,30 @@ ping_set_dest(struct ping_data *ping, const char *host)
 	}
 	return (0);
 #endif /* !HAVE_DECL_GETADDRINFO */
+}
+
+/*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/libping.c;hb=HEAD#l61
+*/
+int
+ping_init(struct ping_data *p, int type, int ident)
+{
+	/* Initialize PING structure to default values */
+	memset(p, '\0', sizeof(struct ping_data));
+
+	if ((p->ping_fd = ping_set_socket_fd()) < 0)
+	{
+		return (0);
+	}
+	p->ping_type = type;
+	p->ping_count = 0;
+	p->ping_interval = PING_DEFAULT_INTERVAL;
+	p->ping_datalen = sizeof(struct icmp_header);
+	/* Make sure we use only 16 bits in this field, id for icmp is a unsigned short. */
+	p->ping_ident = ident & 0xFFFF;
+	p->ping_cktab_size = PING_CKTABSIZE;
+	p->ping_start_time = current_timespec();
+	return (1);
 }
 
 double
