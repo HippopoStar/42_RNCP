@@ -68,6 +68,8 @@ main(int argc, char **argv)
 				break;
 		}
 	}
+	// FT_LOG_DEBUG("option_index: %d", option_index); /* uninitialised */
+	FT_LOG_DEBUG("optind: %d", optind);
 	if (optind == argc)
 	{
 		FT_LOG_ERROR("missing host operand");
@@ -77,7 +79,7 @@ main(int argc, char **argv)
 		if (ping_args_setup(&args))
 		{
 			print_args(&args);
-			ping_process(&args, argc - option_index, argv + option_index);
+			ping_process(&args, argc - optind, argv + optind);
 		}
 		ping_args_teardown(&args);
 	}

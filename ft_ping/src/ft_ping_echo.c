@@ -9,28 +9,12 @@
 #include <string.h>
 
 /*
-** https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/netinet/ip.h;hb=HEAD#l266
-*/
-#define IPOPT_TS                68              /* timestamp */
-/*
-** https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/netinet/ip.h;hb=HEAD#l276
-** Offsets to fields in options other than EOL and NOP.
-*/
-#define IPOPT_OPTVAL            0               /* option ID */
-#define IPOPT_OLEN              1               /* option length */
-#define IPOPT_OFFSET            2               /* offset within option */
-#define IPOPT_MINOFF            4               /* min value of above */
-/*
-** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_echo.c;hb=HEAD#l49
-*/
-#define MAX_IPOPTLEN            40
-
-/*
 ** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_echo.c;hb=HEAD#l55
 ** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_echo.c;hb=HEAD#l155
 */
 static int
 handler(
+	unsigned int       options,
 	int                code,
 	void               *closure,
 	struct sockaddr_in *dest,
@@ -40,11 +24,14 @@ handler(
 	int                datalen
 )
 {
+	int ret_val; /* Either ERROR_OUT_OF_MEMORY or 0 */
+
 	switch (code)
 	{
 		case PEV_RESPONSE:
 		case PEV_DUPLICATE:
-			print_echo(
+			ret_val = print_echo(
+				options,
 				code == PEV_DUPLICATE,
 				(struct ping_stat *)closure,
 				dest,
@@ -55,10 +42,13 @@ handler(
 			);
 			break;
 		case PEV_NOECHO:
-			print_icmp_header(from, ip, icmp, datalen);
+			ret_val = print_icmp_header(options, dest, from, ip, icmp, datalen);
+			break;
+		default:
+			ret_val = 0;
 			break;
 	}
-	return (0);
+	return (ret_val);
 }
 
 /*
@@ -122,7 +112,7 @@ echo_finish(t_args *args, struct ping_data *ping)
 int
 ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 {
-	char rspace[MAX_IPOPTLEN]; /* Maximal IP option space.  */
+	char             rspace[MAX_IPOPTLEN]; /* Maximal IP option space. */
 	struct ping_stat ping_stat;
 	int              status;
 
@@ -131,13 +121,23 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 
 	ping_set_type(ping, ICMP_ECHO);
 	ping_set_packetsize(ping, args->data_length);
+	/*
+	** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/libping.c;hb=HEAD#l206
+	*/
 	ping_set_event_handler(ping, handler, &ping_stat);
 
+	FT_LOG_DEBUG("hostname: %s", hostname);
 	if (ping_set_dest(ping, hostname))
 	{
 		FT_LOG_ERROR("unknown host");
+		if (!(NULL == ping->ping_hostname))
+		{
+			free(ping->ping_hostname);
+			ping->ping_hostname = NULL;
+		}
 		return (2);
 	}
+	FT_LOG_DEBUG("ping->ping_hostname: %s", ping->ping_hostname);
 	if (args->options & OPT_IPTIMESTAMP)
 	{
 		int type;
@@ -151,24 +151,29 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 			type = IPOPT_TS_TSONLY;
 		}
 
-		memset(rspace, '\0', sizeof(MAX_IPOPTLEN * sizeof(char)));
+		memset(rspace, '\0', MAX_IPOPTLEN * sizeof(char));
 		rspace[IPOPT_OPTVAL] = IPOPT_TS;
-		rspace[IPOPT_OLEN] = sizeof (rspace);
+		rspace[IPOPT_OLEN] = MAX_IPOPTLEN;
 		if (type != IPOPT_TS_TSONLY)
 		{
-			rspace[IPOPT_OLEN] -= sizeof (n_time); /* Exsessive part. */
+			rspace[IPOPT_OLEN] -= sizeof(n_time); /* Exsessive part. */
 		}
 		rspace[IPOPT_OFFSET] = IPOPT_MINOFF + 1;
 
-# ifdef IPOPT_POS_OV_FLG
+#ifdef IPOPT_POS_OV_FLG
 		rspace[IPOPT_POS_OV_FLG] = type;
-# else
+#else
 		rspace[3] = type;
-# endif/* !IPOPT_POS_OV_FLG */
+#endif/* !IPOPT_POS_OV_FLG */
 
 		if (setsockopt(ping->ping_fd, IPPROTO_IP, IP_OPTIONS, rspace, rspace[IPOPT_OLEN]) < 0)
 		{
 			FT_LOG_ERROR("setsockopt");
+			if (!(NULL == ping->ping_hostname))
+			{
+				free(ping->ping_hostname);
+				ping->ping_hostname = NULL;
+			}
 			return (2);
 		}
 	}
@@ -188,5 +193,6 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 
 	status = ping_run(args, ping, echo_finish);
 	free(ping->ping_hostname);
+	ping->ping_hostname = NULL;
 	return (status);
 }

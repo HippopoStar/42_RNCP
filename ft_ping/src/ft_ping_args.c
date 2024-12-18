@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define XSTR(S) STR(S)
-#define STR(s) #s
-
 /*
 ** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Initializers.html
 */
@@ -32,9 +29,6 @@ init_args(t_args *args)
 	};
 }
 
-/*
-** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Stringification.html
-*/
 void
 print_args(t_args *args)
 {

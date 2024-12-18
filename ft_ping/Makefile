@@ -18,6 +18,8 @@ NAME = ft_ping
 
 HEADER = \
 	./include/ft_log.h \
+	./include/ft_memory.h \
+	./include/ft_ping_address.h \
 	./include/ft_ping_args_setup_teardown.h \
 	./include/ft_ping_args.h \
 	./include/ft_ping_data_setup_teardown.h \
@@ -27,12 +29,15 @@ HEADER = \
 	./include/ft_ping_options.h \
 	./include/ft_ping_process.h \
 	./include/ft_ping_run.h \
-	./include/ft_ping.h
+	./include/ft_ping.h \
+	./include/ft_timespec.h
 
 SRC_DIR = ./src
 
 SRC_NAME = \
 	ft_log.c \
+	ft_memory.c \
+	ft_ping_address.c \
 	ft_ping_args_setup_teardown.c \
 	ft_ping_args.c \
 	ft_ping_data_setup_teardown.c \
@@ -42,7 +47,8 @@ SRC_NAME = \
 	ft_ping_options.c \
 	ft_ping_process.c \
 	ft_ping_run.c \
-	ft_ping.c
+	ft_ping.c \
+	ft_timespec.c
 
 SRC = $(addprefix $(SRC_DIR)/,$(SRC_NAME))
 

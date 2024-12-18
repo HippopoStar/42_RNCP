@@ -2,12 +2,12 @@
 #ifndef FT_PING_DATA_H
 # define FT_PING_DATA_H
 
+# include "ft_timespec.h"
+
 # include <arpa/inet.h>
 
 # include <netdb.h>
-# include <stdint.h>
 # include <string.h>
-# include <time.h>
 
 /*
 ** ICMP_ECHO
@@ -29,7 +29,7 @@
 # define PEV_DUPLICATE         1
 # define PEV_NOECHO            2
 # define PING_CKTABSIZE        128
-# define PING_TIMING(s)        ((s) >= sizeof(struct timeval))
+# define PING_TIMING(s)        ((s) >= (int)sizeof(struct timeval))
 # define PING_DEFAULT_INTERVAL 1000 /* Milliseconds */
 
 /*
@@ -45,13 +45,6 @@
 ** Structure describing an Internet socket address.
 ** Included through <netdb.h>
 */
-
-/*
-** n_time
-** https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/netinet/in_systm.h;hb=HEAD
-** ms since 00:00 GMT, byte rev
-*/
-typedef uint32_t n_time;
 
 /*
 ** struct ip
@@ -172,6 +165,7 @@ struct ping_stat
 ** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l87
 */
 typedef int (*ping_efp) (
+	unsigned int       options,
 	int                code,
 	void               *closure,
 	struct sockaddr_in *dest,

@@ -24,11 +24,13 @@ int
 ping_set_dest(struct ping_data *ping, const char *host)
 {
 #if HAVE_DECL_GETADDRINFO
+	FT_LOG_DEBUG("HAVE_DECL_GETADDRINFO");
 	int             rc;
 	struct addrinfo hints, *res;
 	char            *rhost;
 
 # if defined HAVE_IDN || defined HAVE_IDN2
+	FT_LOG_DEBUG("HAVE_IDN || HAVE_IDN2");
 	rc = idna_to_ascii_lz(host, &rhost, 0); /* RHOST is allocated. */
 	if (rc)
 	{
@@ -43,9 +45,11 @@ ping_set_dest(struct ping_data *ping, const char *host)
 	hints.ai_family = AF_INET;
 	hints.ai_flags = AI_CANONNAME;
 # ifdef AI_IDN
+	FT_LOG_DEBUG("AI_IDN");
 	hints.ai_flags |= AI_IDN;
 # endif
 # ifdef AI_CANONIDN
+	FT_LOG_DEBUG("AI_CANONIDN");
 	hints.ai_flags |= AI_CANONIDN;
 # endif
 
@@ -79,6 +83,7 @@ ping_set_dest(struct ping_data *ping, const char *host)
 	struct sockaddr_in *s_in = &(ping->ping_dest);
 	s_in->sin_family = AF_INET;
 # ifdef HAVE_STRUCT_SOCKADDR_IN_SIN_LEN
+	FT_LOG_DEBUG("HAVE_STRUCT_SOCKADDR_IN_SIN_LEN");
 	s_in->sin_len = sizeof(struct sockaddr_in);
 # endif
 	if (inet_aton(host, &s_in->sin_addr))

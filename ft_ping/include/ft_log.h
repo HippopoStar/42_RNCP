@@ -3,6 +3,12 @@
 # define FT_LOG_H
 
 /*
+** https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Stringification.html
+*/
+# define XSTR(S) STR(S)
+# define STR(s) #s
+
+/*
 ** https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-format-function-attribute
 ** https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
 ** https://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html

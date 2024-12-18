@@ -1,15 +1,14 @@
 
 #include "ft_log.h"
 #include "ft_ping_data_setup_teardown.h"
+#include "ft_timespec.h"
 
 #include <sys/socket.h>
-#include <sys/time.h>
 
 #include <errno.h>
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <unistd.h>
 
 /*
@@ -36,7 +35,13 @@ ping_data_teardown(struct ping_data *p)
 	ping_unset_data(p);
 	if (!(p->ping_fd < 0))
 	{
-		close(p->ping_fd); // TODO: ensure 
+		close(p->ping_fd); // TODO: ensure
+		p->ping_fd = -1;
+	}
+	if (!(NULL == p->ping_hostname))
+	{
+		free(p->ping_hostname);
+		p->ping_hostname = NULL;
 	}
 }
 
@@ -93,38 +98,6 @@ ping_open_socket(void)
 		}
 	}
 	return (fd);
-}
-
-/* Get the system time into *TS. */
-static void
-gettime (struct timespec *ts)
-{
-#if defined CLOCK_REALTIME && HAVE_CLOCK_GETTIME
-	clock_gettime(CLOCK_REALTIME, ts);
-#elif defined HAVE_TIMESPEC_GET
-	timespec_get(ts, TIME_UTC);
-#else
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	*ts = (struct timespec)
-		{
-			.tv_sec  = tv.tv_sec,
-			.tv_nsec = tv.tv_usec * 1000
-		};
-#endif
-}
-
-/*
-** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/timespec.h;hb=HEAD#l92
-** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/gettime.c;hb=HEAD#l43
-** Return the current system time as a struct timespec.
-*/
-static struct timespec
-current_timespec(void)
-{
-	struct timespec ts;
-	gettime(&ts);
-	return (ts);
 }
 
 /*
