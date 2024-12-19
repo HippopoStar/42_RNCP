@@ -4,6 +4,7 @@
 [Internet Engineering Task Force — Request For Comments 792 — Internet Control Message Protocol](https://www.ietf.org/rfc/rfc792.html#page-14)  
 
 https://manpages.debian.org/wheezy/inetutils-ping/ping.8.en.html  
+https://packages.debian.org/bookworm/inetutils-ping  
 
 https://directory.fsf.org/wiki/Inetutils  
 https://www.gnu.org/software/inetutils/  
