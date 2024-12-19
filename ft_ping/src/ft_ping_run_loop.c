@@ -199,6 +199,8 @@ ping_recv (struct ping_data *p, unsigned int options)
 			}
 
 			if (p->ping_event)
+			{
+				FT_LOG_DEBUG("Call callback (p->ping_event)");
 				if (!(0 == (*p->ping_event) (
 					options,
 					dupflag ? PEV_DUPLICATE : PEV_RESPONSE,
@@ -212,6 +214,7 @@ ping_recv (struct ping_data *p, unsigned int options)
 				{
 					return (4);
 				}
+			}
 			break;
 
 		case ICMP_ECHO:
@@ -224,6 +227,8 @@ ping_recv (struct ping_data *p, unsigned int options)
 				return -1;
 
 			if (p->ping_event)
+			{
+				FT_LOG_DEBUG("Call callback (p->ping_event)");
 				if (!(0 == (*p->ping_event) (
 					options,
 					PEV_NOECHO,
@@ -237,6 +242,7 @@ ping_recv (struct ping_data *p, unsigned int options)
 				{
 					return (4);
 				}
+			}
 	}
 	return 0;
 }

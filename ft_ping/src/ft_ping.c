@@ -1,9 +1,34 @@
 
 #include "ft_ping.h"
 
+static void
+ft_ping_usage(void)
+{
+	ft_log_error(
+		"Usage: ping [OPTIONS...] HOST ...\n"
+		"Send ICMP ECHO_REQUEST packets to network hosts.\n"
+		"\n"
+		"Options:\n"
+		"  -f, --flood             flood ping" /* " (root only)" */ "\n"
+		"  -h, --help              give this help list\n"
+		"      --ip-timestamp=FLAG IP timestamp of type FLAG, which is one of \"tsonly\" and \"tsaddr\"\n"
+		"  -l, --preload=NUMBER    send NUMBER packets as fast as possible before falling into normal mode of behavior" /* " (root only)" */ "\n"
+		"  -n, --numeric           do not resolve host addresses\n"
+		"  -p, --pattern=PATTERN   fill ICMP packet with given pattern (hex)\n"
+		"  -r, --ignore-routing    send directly to a host on an attached network\n"
+		"  -s, --size=NUMBER       send NUMBER data octets\n"
+		"  -T, --tos=NUM           set type of service (TOS) to NUM\n"
+		"      --ttl=N             specify N as time-to-live\n"
+		"  -v, --verbose           verbose output\n"
+		"  -w, --timeout=N         stop after N seconds\n"
+		"  -W, --linger=N          number of seconds to wait for response\n"
+	);
+}
+
 int
 main(int argc, char **argv)
 {
+	int    usage;
 	int    has_error;
 	int    c;
 	int    option_index;
@@ -11,22 +36,26 @@ main(int argc, char **argv)
 
 	ft_log_init(argv[0]);
 	init_args(&args);
+	usage = 0;
 	has_error = 0;
 	while (
 		!(
 			has_error
-			|| -1 == (c = getopt_long(argc, argv, "vfl:nw:W:p:rs:T:", *get_long_options(), &option_index))
+			|| -1 == (c = getopt_long(argc, argv, "hvfl:nw:W:p:rs:T:", *get_long_options(), &option_index))
 		)
 	)
 	{
 		FT_LOG_DEBUG("option -%c", c);
 		switch (c)
 		{
+			case 'h':
+				usage = 1;
+				break;
 			case 'v':
 				args.options |= OPT_VERBOSE;
 				break;
 			case 'f':
-				args.options |= OPT_FLOOD;
+				args.options |= parse_optarg_flood(&args, &has_error);
 				break;
 			case 'l':
 				args.preload = parse_optarg_preload(&args, optarg, &has_error);
@@ -60,6 +89,7 @@ main(int argc, char **argv)
 				args.suboptions |= parse_optarg_ip_timestamp(optarg, &has_error);
 				break;
 			case '?':
+				/* getopt_long already printed an error message. */
 				has_error = 1;
 				break;
 			default:
@@ -70,7 +100,11 @@ main(int argc, char **argv)
 	}
 	// FT_LOG_DEBUG("option_index: %d", option_index); /* uninitialised */
 	FT_LOG_DEBUG("optind: %d", optind);
-	if (optind == argc)
+	if (usage || has_error)
+	{
+		ft_ping_usage();
+	}
+	else if (optind == argc)
 	{
 		FT_LOG_ERROR("missing host operand");
 	}

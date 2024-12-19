@@ -77,6 +77,9 @@ ping_run(t_args *args, struct ping_data *ping, int (*finish)(t_args *args, struc
 	loop_event_post(ping);
 
 	if (finish)
+	{
+		FT_LOG_DEBUG("Call callback (echo_finish)");
 		return (*finish) (args, ping);
+	}
 	return (4 == ret_val ? 4 : 0);
 }

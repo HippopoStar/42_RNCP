@@ -130,6 +130,7 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 	/*
 	** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/libping.c;hb=HEAD#l206
 	*/
+	FT_LOG_DEBUG("Set callback (handler)");
 	ping_set_event_handler(ping, handler, &ping_stat);
 
 	FT_LOG_DEBUG("hostname: %s", hostname);
@@ -197,6 +198,7 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 
 	printf("\n");
 
+	FT_LOG_DEBUG("Set callback (echo_finish)");
 	status = ping_run(args, ping, echo_finish);
 	free(ping->ping_hostname);
 	ping->ping_hostname = NULL;

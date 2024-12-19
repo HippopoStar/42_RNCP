@@ -34,7 +34,7 @@ print_args(t_args *args)
 {
 	size_t i;
 
-	fprintf(stderr,
+	ft_log_debug(
 		"{\n"
 		"\t.preload = %lu\n"
 		"\t.timeout = %d\n"
@@ -66,21 +66,21 @@ print_args(t_args *args)
 	);
 	if (!(NULL == args->patptr))
 	{
-		fprintf(stderr, "pattern content: [");
+		ft_log_debug("pattern content: [");
 		for (i = 0; i < MAXPATTERN; i++)
 		{
-			fprintf(stderr, "%02hhx", args->pattern[i]);
+			ft_log_debug("%02hhx", args->pattern[i]);
 		}
-		fprintf(stderr, "]\n");
+		ft_log_debug("]\n");
 	}
 	if (!(NULL == args->data_buffer))
 	{
-		fprintf(stderr, "data_buffer content: [");
+		ft_log_debug("data_buffer content: [");
 		for (i = 0; i < args->data_length; i++)
 		{
-			fprintf(stderr, "%02hhx", args->data_buffer[i]);
+			ft_log_debug("%02hhx", args->data_buffer[i]);
 		}
-		fprintf(stderr, "]\n");
+		ft_log_debug("]\n");
 	}
 }
 
@@ -92,6 +92,21 @@ is_root(t_args *args)
 		|| (3 < args->preload)
 		|| (0 == getuid())
 	);
+}
+
+unsigned int
+parse_optarg_flood(t_args *args, int *has_error)
+{
+	if (is_root(args))
+	{
+		return (OPT_FLOOD);
+	}
+	else
+	{
+		FT_LOG_ERROR("flood behaviour requires super-user privileges");
+		*has_error = 1;
+		return (0);
+	}
 }
 
 /*

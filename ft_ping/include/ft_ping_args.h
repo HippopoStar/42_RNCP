@@ -56,6 +56,9 @@ init_args(t_args *args);
 void
 print_args(t_args *args);
 
+unsigned int
+parse_optarg_flood(t_args *args, int *has_error);
+
 unsigned long
 parse_optarg_preload(t_args *args, const char *optarg, int *has_error);
 

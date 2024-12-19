@@ -20,6 +20,7 @@ const struct option
 		{
 			/* These options do not set a flag.
 			*  We distinguish them by their indices. */
+			{"help",          no_argument,       0, 'h'},
 			{"verbose",        no_argument,       0, 'v'},
 			{"flood",          no_argument,       0, 'f'},
 			{"preload",        required_argument, 0, 'l'},
