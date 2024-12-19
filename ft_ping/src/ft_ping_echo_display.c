@@ -36,7 +36,8 @@ struct icmp_code_descr
 	int type;
 	int code;
 	char *diag;
-} icmp_code_descr[] = {
+};
+static struct icmp_code_descr icmp_code_descr[] = {
 	{ICMP_DEST_UNREACH, ICMP_NET_UNREACH, "Destination Net Unreachable"},
 	{ICMP_DEST_UNREACH, ICMP_HOST_UNREACH, "Destination Host Unreachable"},
 	{ICMP_DEST_UNREACH, ICMP_PROT_UNREACH, "Destination Protocol Unreachable"},
@@ -71,7 +72,8 @@ struct icmp_diag
 	char *text;
 	void (*fun) (unsigned int options, struct icmp_header *, void *data);
 	void *data;
-} icmp_diag[] = {
+};
+static struct icmp_diag icmp_diag[] = {
 	{ICMP_ECHOREPLY, "Echo Reply", NULL, NULL},
 	{ICMP_DEST_UNREACH, NULL, print_icmp, "Dest Unreachable"},
 	{ICMP_SOURCE_QUENCH, "Source Quench", print_ip_data, NULL},
