@@ -26,6 +26,8 @@ handler(
 {
 	int ret_val; /* Either ERROR_MEMORY_EXHAUSTED or 0 */
 
+	FT_LOG_DEBUG("handler");
+
 	switch (code)
 	{
 		case PEV_RESPONSE:
@@ -90,6 +92,8 @@ ping_finish(struct ping_data *ping)
 static int
 echo_finish(t_args *args, struct ping_data *ping)
 {
+	FT_LOG_DEBUG("echo_finish");
+
 	ping_finish(ping);
 	if (ping->ping_num_recv && PING_TIMING(args->data_length))
 	{
@@ -115,6 +119,8 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 	char             rspace[MAX_IPOPTLEN]; /* Maximal IP option space. */
 	struct ping_stat ping_stat;
 	int              status;
+
+	FT_LOG_DEBUG("ping_echo");
 
 	memset(&ping_stat, '\0', sizeof(struct ping_stat));
 	ping_stat.tmin = 999999999.0;

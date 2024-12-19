@@ -1,4 +1,5 @@
 
+#include "ft_log.h"
 #include "ft_ping_args.h"
 #include "ft_ping_data_setup_teardown.h"
 #include "ft_ping_echo.h"
@@ -15,6 +16,8 @@ ping_process(t_args *args, int argc, char **argv, int *status)
 	struct ping_data p;
 	int              i;
 	int              one = 1;
+
+	FT_LOG_DEBUG("ping_process");
 
 	if (!(*status = ping_data_setup(&p, args, &one)))
 	{

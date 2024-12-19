@@ -29,6 +29,7 @@ HEADER = \
 	./include/ft_ping_icmp.h \
 	./include/ft_ping_options.h \
 	./include/ft_ping_process.h \
+	./include/ft_ping_run_loop.h \
 	./include/ft_ping_run.h \
 	./include/ft_ping.h \
 	./include/ft_timespec.h
@@ -47,6 +48,7 @@ SRC_NAME = \
 	ft_ping_echo.c \
 	ft_ping_options.c \
 	ft_ping_process.c \
+	ft_ping_run_loop.c \
 	ft_ping_run.c \
 	ft_ping.c \
 	ft_timespec.c

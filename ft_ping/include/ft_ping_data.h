@@ -13,6 +13,7 @@
 ** ICMP_ECHO
 ** https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/gnu/netinet/ip_icmp.h;hb=HEAD#l51
 ** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=libicmp/icmp.h;hb=HEAD#l120
+** Also defined in ft_ping_icmp.h
 */
 # define ICMP_ECHO             8    /* Echo Request */
 
@@ -208,6 +209,9 @@ struct ping_data
 
 void
 ping_unset_data(struct ping_data *p);
+
+int
+ping_setbuf(struct ping_data *p);
 
 int
 ping_set_data(struct ping_data *p, void *data, size_t off, size_t len);

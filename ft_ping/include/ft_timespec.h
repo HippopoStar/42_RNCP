@@ -26,6 +26,12 @@ timespectod(struct timespec a);
 struct timespec
 make_timespec(time_t s, long int ns);
 
+int
+timespec_sign(struct timespec a);
+
+struct timespec
+timespec_add(struct timespec a, struct timespec b);
+
 struct timespec
 timespec_sub(struct timespec a, struct timespec b);
 

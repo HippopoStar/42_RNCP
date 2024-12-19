@@ -27,11 +27,15 @@ ping_unset_data(struct ping_data *p)
 	}
 }
 
-static int
+int
 ping_setbuf(struct ping_data *p)
 {
 	if (NULL == p->ping_buffer)
 	{
+		/*
+		** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l79
+		** _PING_BUFLEN (p, USE_IPV6)
+		*/
 		if (NULL == (p->ping_buffer = xmalloc ((MAXIPLEN + p->ping_datalen + ICMP_TSLEN) * sizeof(unsigned char))))
 		{
 			return (-1);
@@ -92,6 +96,8 @@ ping_set_socket_fd(void)
 	int             fd;
 	struct protoent *proto;
 
+	FT_LOG_DEBUG("ping_set_socket_fd");
+
 	/* Initialize raw ICMP socket */
 	proto = getprotobyname("icmp");
 	if (!proto)
@@ -101,6 +107,7 @@ ping_set_socket_fd(void)
 	}
 
 	fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
+	FT_LOG_DEBUG("fd: %d", fd);
 	if (fd < 0)
 	{
 		if (errno == EPERM || errno == EACCES)
@@ -131,7 +138,7 @@ ping_set_socket_fd(void)
 				return (fd);
 			}
 
-			// useless_ident++; /* SOCK_DGRAM overrides our set identity. */ TODO
+			// useless_ident++; /* SOCK_DGRAM overrides our set identity. */ // TODO
 		}
 		else
 		{

@@ -1,4 +1,6 @@
 
+#include "ft_log.h"
+#include "ft_ping_run_loop.h"
 #include "ft_ping_run.h"
 
 #include <signal.h>
@@ -42,20 +44,39 @@ interruption_signal_handler_teardown(struct sigaction *old_action)
 int
 ping_run(t_args *args, struct ping_data *ping, int (*finish)(t_args *args, struct ping_data *ping))
 {
-	(void)args;
-	(void)ping;
-	(void)finish;
-
+	int              ret_val;
 	struct sigaction old_action;
 	struct sigaction new_action;
 
+	int              fdmax;
+	struct timespec  last;
+	struct timespec  intvl;
+	int              finishing = 0;
+	size_t           nresp = 0;
+
+	FT_LOG_DEBUG("ping_run");
+
+	loop_event_pre(ping, args, &fdmax, &last, &intvl);
+
+	ret_val = 0;
 	interruption_signal_handler_setup(&old_action, &new_action);
-	while(!stop)
+	while(!(stop || ret_val))
 	{
-		write(1, ".", 1);
-		sleep(1);
+		ret_val = loop_event(
+			ping,
+			args,
+			fdmax,
+			&last,
+			&intvl,
+			&finishing,
+			&nresp
+		);
 	}
-	write(1, "\n", 1);
 	interruption_signal_handler_teardown(&old_action);
-	return (0);
+
+	loop_event_post(ping);
+
+	if (finish)
+		return (*finish) (args, ping);
+	return (4 == ret_val ? 4 : 0);
 }

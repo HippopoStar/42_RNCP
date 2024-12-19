@@ -40,6 +40,12 @@
 #define ckd_mul(r, a, b) __builtin_mul_overflow(a, b, r)
 
 /*
+** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=Makefile;hb=HEAD#l189
+** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=m4/gnulib-common.m4;hb=HEAD#l915
+*/
+#define FT_CMP(n1, n2) (((n1) > (n2)) - ((n1) < (n2)))
+
+/*
 ** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/timespec.h;hb=HEAD#l84
 ** Return an approximation to A, of type 'double'.
 */
@@ -61,6 +67,17 @@ make_timespec(time_t s, long int ns)
 }
 
 /*
+** timespec_sign
+** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/timespec.h;hb=HEAD#l69
+** Return -1, 0, 1, depending on the sign of A.  A.tv_nsec must be nonnegative.
+*/
+int
+timespec_sign(struct timespec a)
+{
+	return (FT_CMP(a.tv_sec, 0) + (!a.tv_sec & !!a.tv_nsec));
+}
+
+/*
 ** https://sourceware.org/git/?p=glibc.git;a=blob;f=support/timespec.h;hb=HEAD#l39
 ** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/timespec.h;hb=HEAD#l77
 **
@@ -73,7 +90,36 @@ make_timespec(time_t s, long int ns)
 ** https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=lib/timespec-sub.c;hb=HEAD#l30
 */
 struct timespec
-timespec_sub (struct timespec a, struct timespec b)
+timespec_add(struct timespec a, struct timespec b)
+{
+	int nssum = a.tv_nsec + b.tv_nsec;
+	int carry = TIMESPEC_HZ <= nssum;
+	time_t rs;
+	int rns;
+	bool v = ckd_add (&rs, a.tv_sec, b.tv_sec);
+	if (v == ckd_add (&rs, rs, carry))
+	{
+		rns = nssum - TIMESPEC_HZ * carry;
+	}
+	else
+	{
+		if ((TYPE_MINIMUM (time_t) + TYPE_MAXIMUM (time_t)) / 2 < rs)
+		{
+			rs = TYPE_MINIMUM (time_t);
+			rns = 0;
+		}
+		else
+		{
+			rs = TYPE_MAXIMUM (time_t);
+			rns = TIMESPEC_HZ - 1;
+		}
+	}
+
+	return make_timespec (rs, rns);
+}
+
+struct timespec
+timespec_sub(struct timespec a, struct timespec b)
 {
 	int    nsdiff = a.tv_nsec - b.tv_nsec;
 	int    borrow = nsdiff < 0;
