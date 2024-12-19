@@ -7,21 +7,22 @@ ft_ping_usage(void)
 	ft_log_error(
 		"Usage: ping [OPTIONS...] HOST ...\n"
 		"Send ICMP ECHO_REQUEST packets to network hosts.\n"
+		"Options marked with (root only) are available only to superuser.\n"
 		"\n"
 		"Options:\n"
-		"  -f, --flood             flood ping" /* " (root only)" */ "\n"
+		// "  -f, --flood             flood ping" " (root only)" "\n"
 		"  -h, --help              give this help list\n"
-		"      --ip-timestamp=FLAG IP timestamp of type FLAG, which is one of \"tsonly\" and \"tsaddr\"\n"
-		"  -l, --preload=NUMBER    send NUMBER packets as fast as possible before falling into normal mode of behavior" /* " (root only)" */ "\n"
-		"  -n, --numeric           do not resolve host addresses\n"
+		"  -l, --preload=NUMBER    send NUMBER packets as fast as possible before falling into normal mode of behavior" " (NUMBER > 3: root only)" "\n"
+		// "  -n, --numeric           do not resolve host addresses\n"
 		"  -p, --pattern=PATTERN   fill ICMP packet with given pattern (hex)\n"
-		"  -r, --ignore-routing    send directly to a host on an attached network\n"
+		// "  -r, --ignore-routing    send directly to a host on an attached network\n"
 		"  -s, --size=NUMBER       send NUMBER data octets\n"
-		"  -T, --tos=NUM           set type of service (TOS) to NUM\n"
+		// "  -T, --tos=NUM           set type of service (TOS) to NUM\n"
 		"      --ttl=N             specify N as time-to-live\n"
+		// "      --ip-timestamp=FLAG IP timestamp of type FLAG, which is one of \"tsonly\" and \"tsaddr\"\n"
 		"  -v, --verbose           verbose output\n"
 		"  -w, --timeout=N         stop after N seconds\n"
-		"  -W, --linger=N          number of seconds to wait for response\n"
+		// "  -W, --linger=N          number of seconds to wait for response\n"
 	);
 }
 
@@ -41,7 +42,7 @@ main(int argc, char **argv)
 	while (
 		!(
 			has_error
-			|| -1 == (c = getopt_long(argc, argv, "hvfl:nw:W:p:rs:T:", *get_long_options(), &option_index))
+			|| -1 == (c = getopt_long(argc, argv, "hvl:w:p:s:", *get_long_options(), &option_index)) /* "hvfl:nw:W:p:rs:T:" */
 		)
 	)
 	{

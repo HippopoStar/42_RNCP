@@ -106,13 +106,13 @@ ping_set_socket_fd(void)
 		return (-1);
 	}
 
-	fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
-	FT_LOG_DEBUG("fd: %d", fd);
-	if (fd < 0)
-	{
-		if (errno == EPERM || errno == EACCES)
-		{
-			errno = 0;
+	// fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
+	// FT_LOG_DEBUG("fd: %d", fd);
+	// if (fd < 0)
+	// {
+	// 	if (errno == EPERM || errno == EACCES)
+	// 	{
+	// 		errno = 0;
 
 			/*
 			** At least Linux can allow subprivileged users to send ICMP
@@ -139,13 +139,13 @@ ping_set_socket_fd(void)
 			}
 
 			// useless_ident++; /* SOCK_DGRAM overrides our set identity. */ // TODO
-		}
-		else
-		{
-			FT_LOG_ERROR("Unable to open socket");
-			return (fd);
-		}
-	}
+	// 	}
+	// 	else
+	// 	{
+	// 		FT_LOG_ERROR("Unable to open socket");
+	// 		return (fd);
+	// 	}
+	// }
 	return (fd);
 }
 

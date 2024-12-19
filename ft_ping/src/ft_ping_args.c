@@ -204,12 +204,12 @@ parse_optarg_number(const char *optarg, size_t maxval, int allow_zero, int *has_
 	}
 	if (0 == n && !allow_zero)
 	{
-		FT_LOG_ERROR("option value too small: %s", optarg);
+		FT_LOG_ERROR("option value too small: %s (min: 1)", optarg);
 		*has_error = 1;
 	}
 	if (0 != maxval && maxval < n)
 	{
-		FT_LOG_ERROR("option value too big: %s", optarg);
+		FT_LOG_ERROR("option value too big: %s (max: %zu)", optarg, maxval);
 		*has_error = 1;
 	}
 	return n;
