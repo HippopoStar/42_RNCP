@@ -25,6 +25,7 @@ ft_log_debug(const char *format, ...)
 	va_list ap;
 
 	(void)format;
+	(void)ap;
 #ifdef DEBUG
 	va_start(ap, format);
 	ret_val = vfprintf(stderr, format, ap);

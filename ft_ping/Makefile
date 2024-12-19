@@ -6,7 +6,7 @@
 # cpp -I./include/ -DDEBUG <file>
 
 CFLAGS   = -Wall -Wextra -Werror
-CPPFLAGS = -I./include/ -DDEBUG
+CPPFLAGS = -I./include/ #-DDEBUG
 LDFLAGS  =
 LDLIBS   =
 
