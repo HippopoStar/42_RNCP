@@ -26,10 +26,69 @@ https://sourceware.org/git/?p=glibc.git;a=tree;f=argp;hb=HEAD
 https://sourceware.org/git/?p=glibc.git;a=blob;f=argp/argp-parse.c;hb=HEAD#l860  
 
 https://www.debian.org/distrib/archive  
-https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.0.0-live+nonfree/amd64/iso-hybrid/  
 ```
-curl -C - -L -O https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.0.0-live+nonfree/amd64/iso-hybrid/debian-live-7.0.0-amd64-standard+nonfree.iso
+# -C, --continue-at <offset>
+# -L, --location
+# -O, --remote-name
+curl -C - -L -O <URL>
 ```
+
+VirtualBox:  
+☑ Skip Unattended Installation  
+Debian 12 Operating System + Mate Desktop Environment: \~5.0GO  
+
+Prior to Debian 11, there were 3 distinct DVD versions  
+Debian 7 also has an "update" DVD version available  
+Starting with Debian 10, network installers are available in an "edu" version  
+
+Debian  7.0.0       :
+[Live](https://cdimage.debian.org/cdimage/archive/7.0.0-live/amd64/iso-hybrid/debian-live-7.0.0-amd64-standard.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.0.0-live+nonfree/amd64/iso-hybrid/debian-live-7.0.0-amd64-standard+nonfree.iso))
+
+Debian  7 (Wheezy)  :
+[NetInst](https://cdimage.debian.org/cdimage/archive/7.11.0/amd64/iso-cd/debian-7.11.0-amd64-netinst.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.11.0+nonfree/amd64/iso-cd/firmware-7.11.0-amd64-netinst.iso))
+[DVD](https://cdimage.debian.org/cdimage/archive/7.11.0/amd64/iso-dvd/debian-7.11.0-amd64-DVD-1.iso)
+(∅)
+[Live](https://cdimage.debian.org/cdimage/archive/7.11.0-live/amd64/iso-hybrid/debian-live-7.11.0-amd64-standard.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/7.11.0-live+nonfree/amd64/iso-hybrid/debian-live-7.11.0-amd64-standard+nonfree.iso))
+
+Debian  8 (Jessie)  :
+[NetInst](https://cdimage.debian.org/cdimage/archive/8.11.1/amd64/iso-cd/debian-8.11.1-amd64-netinst.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/8.11.1+nonfree/amd64/iso-cd/firmware-8.11.1-amd64-netinst.iso))
+[DVD](https://cdimage.debian.org/cdimage/archive/8.11.1/amd64/iso-dvd/debian-8.11.1-amd64-DVD-1.iso)
+(∅)
+[Live](https://cdimage.debian.org/cdimage/archive/8.11.0-live/amd64/iso-hybrid/debian-live-8.11.0-amd64-standard.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/8.11.0-live+nonfree/amd64/iso-hybrid/debian-live-8.11.0-amd64-standard+nonfree.iso))
+
+Debian  9 (Stretch) :
+[NetInst](https://cdimage.debian.org/cdimage/archive/9.13.0/amd64/iso-cd/debian-9.13.0-amd64-netinst.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/9.13.0+nonfree/amd64/iso-cd/firmware-9.13.0-amd64-netinst.iso))
+[DVD](https://cdimage.debian.org/cdimage/archive/9.13.0/amd64/iso-dvd/debian-9.13.0-amd64-DVD-1.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/9.13.0+nonfree/amd64/iso-dvd/firmware-9.13.0-amd64-DVD-1.iso))
+∅
+(∅)
+
+Debian 10 (Buster)  :
+[NetInst](https://cdimage.debian.org/cdimage/archive/10.13.0/amd64/iso-cd/debian-10.13.0-amd64-netinst.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/10.13.0+nonfree/amd64/iso-cd/firmware-10.13.0-amd64-netinst.iso))
+[DVD](https://cdimage.debian.org/cdimage/archive/10.13.0/amd64/iso-dvd/debian-10.13.0-amd64-DVD-1.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/10.13.0+nonfree/amd64/iso-dvd/firmware-10.13.0-amd64-DVD-1.iso))
+[Live](https://cdimage.debian.org/cdimage/archive/10.13.0-live/amd64/iso-hybrid/debian-live-10.13.0-amd64-standard.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/10.13.0-live+nonfree/amd64/iso-hybrid/debian-live-10.13.0-amd64-standard+nonfree.iso))
+
+Debian 11 (Bullseye):
+[NetInst](https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/11.11.0+nonfree/amd64/iso-cd/firmware-11.11.0-amd64-netinst.iso))
+[DVD](https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-dvd/debian-11.11.0-amd64-DVD-1.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/11.11.0+nonfree/amd64/iso-dvd/firmware-11.11.0-amd64-DVD-1.iso))
+[Live](https://cdimage.debian.org/cdimage/archive/11.11.0-live/amd64/iso-hybrid/debian-live-11.11.0-amd64-standard.iso)
+([+NonFree](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/11.11.0-live+nonfree/amd64/iso-hybrid/debian-live-11.11.0-amd64-standard+nonfree.iso))
+
+Debian 12 (Bookworm):
+[NetInst](https://cdimage.debian.org/cdimage/archive/12.0.0/amd64/iso-cd/debian-12.0.0-amd64-netinst.iso)
+[DVD](https://cdimage.debian.org/cdimage/archive/12.0.0/amd64/iso-dvd/debian-12.0.0-amd64-DVD-1.iso)
+[Live](https://cdimage.debian.org/cdimage/archive/12.0.0-live/amd64/iso-hybrid/debian-live-12.0.0-amd64-standard.iso)
 
 ```
 # Test cases
