@@ -91,6 +91,19 @@ Debian 12 (Bookworm):
 [Live](https://cdimage.debian.org/cdimage/archive/12.0.0-live/amd64/iso-hybrid/debian-live-12.0.0-amd64-standard.iso)
 
 ```
+$> df -h
+$> su -
+#> usermod -aG sudo <user>
+#> CTRL+D
+$> sudo apt-get update && sudo apt-get install gcc git make valgrind vim openssh-server inetutils-ping tcpdump
+$> cat /proc/sys/net/ipv4/ping_group_range
+$> echo 'net.ipv4.ping_group_range = 0 2147483647' | sudo tee -a /etc/sysctl.conf
+$> sudo sysctl -p
+$> git clone <repository>
+$>
+```
+
+```
 # Test cases
 ./ft_ping -v -? 192.168.1.1
 ./ft_ping -v -s 0 192.168.1.1
