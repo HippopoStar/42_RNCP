@@ -95,7 +95,11 @@ $> df -h
 $> su -
 #> usermod -aG sudo <user>
 #> CTRL+D
-$> sudo apt-get update && sudo apt-get install gcc git make valgrind vim openssh-server inetutils-ping tcpdump
+$> sudo apt-get update && sudo apt-get install gcc git make valgrind vim openssh-server net-tools inetutils-ping tcpdump
+$> sudo vim /etc/ssh/sshd_config # Search for 'PasswordAuthentication'
+$> sudo sshd -t # Check the validity of the configuration file
+$> sudo systemctl reload sshd
+$> ssh-keygen -t ed25519 -C 'your_email@example.com'
 $> cat /proc/sys/net/ipv4/ping_group_range
 $> echo 'net.ipv4.ping_group_range = 0 2147483647' | sudo tee -a /etc/sysctl.conf
 $> sudo sysctl -p
