@@ -135,7 +135,7 @@ ping_echo(t_args *args, struct ping_data *ping, const char *hostname)
 	ping_set_event_handler(ping, handler, &ping_stat);
 
 	FT_LOG_DEBUG("hostname: %s", hostname);
-	if (ping_set_dest(ping, hostname))
+	if (ping_set_dest(ping, hostname) || NULL == ping->ping_hostname)
 	{
 		FT_LOG_ERROR("unknown host");
 		if (!(NULL == ping->ping_hostname))
