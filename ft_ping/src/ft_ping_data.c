@@ -91,9 +91,8 @@ ping_set_sockopt(struct ping_data *ping, int opt, void *val, int valsize)
 }
 
 int
-ping_set_socket_fd(void)
+ping_set_socket_fd(struct ping_data *ping)
 {
-	int             fd;
 	struct protoent *proto;
 
 	FT_LOG_DEBUG("ping_set_socket_fd");
@@ -103,24 +102,25 @@ ping_set_socket_fd(void)
 	if (!proto)
 	{
 		FT_LOG_ERROR("ping: unknown protocol icmp.");
-		return (-1);
+		ping->ping_fd = -1;
+		return (0);
 	}
 
-	// fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
-	// FT_LOG_DEBUG("fd: %d", fd);
-	// if (fd < 0)
-	// {
-	// 	if (errno == EPERM || errno == EACCES)
-	// 	{
-	// 		errno = 0;
+	ping->ping_fd = socket(AF_INET, SOCK_RAW, proto->p_proto);
+	FT_LOG_DEBUG("ping->ping_fd: %d", ping->ping_fd);
+	if (ping->ping_fd < 0)
+	{
+		if (errno == EPERM || errno == EACCES)
+		{
+			errno = 0;
 
 			/*
 			** At least Linux can allow subprivileged users to send ICMP
 			** packets formally encapsulated and built as a datagram socket,
 			** but then the identity number is set by the kernel itself.
 			*/
-			fd = socket(AF_INET, SOCK_DGRAM, proto->p_proto);
-			if (fd < 0)
+			ping->ping_fd = socket(AF_INET, SOCK_DGRAM, proto->p_proto);
+			if (ping->ping_fd < 0)
 			{
 				if (
 					errno == EPERM
@@ -135,18 +135,18 @@ ping_set_socket_fd(void)
 					FT_LOG_ERROR("ping: %s", strerror(errno));
 				}
 
-				return (fd);
+				return (0);
 			}
 
-			// useless_ident++; /* SOCK_DGRAM overrides our set identity. */ // TODO
-	// 	}
-	// 	else
-	// 	{
-	// 		FT_LOG_ERROR("Unable to open socket");
-	// 		return (fd);
-	// 	}
-	// }
-	return (fd);
+			(ping->ping_useless_ident)++; /* SOCK_DGRAM overrides our set identity. */
+		}
+		else
+		{
+			FT_LOG_ERROR("Unable to open socket");
+			return (0);
+		}
+	}
+	return (1);
 }
 
 void
@@ -282,7 +282,7 @@ ping_init(struct ping_data *p, int type, int ident)
 	/* Initialize PING structure to default values */
 	memset(p, '\0', sizeof(struct ping_data));
 
-	if ((p->ping_fd = ping_set_socket_fd()) < 0)
+	if (!ping_set_socket_fd(p))
 	{
 		return (0);
 	}

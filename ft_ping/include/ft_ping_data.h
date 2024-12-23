@@ -185,6 +185,7 @@ typedef int (*ping_efp) (
 struct ping_data
 {
 	int                ping_fd;         /* Raw socket descriptor */
+	int                ping_useless_ident;
 	int                ping_type;       /* Type of packets to send */
 	size_t             ping_count;      /* Number of packets to send */
 	struct timespec    ping_start_time; /* Start time */
@@ -223,7 +224,7 @@ int
 ping_set_sockopt(struct ping_data *ping, int opt, void *val, int valsize);
 
 int
-ping_set_socket_fd(void);
+ping_set_socket_fd(struct ping_data *ping);
 
 void
 ping_set_type(struct ping_data *ping, int type);

@@ -129,7 +129,7 @@ my_echo_reply (struct ping_data *p, struct icmp_header *icmp)
 		orig_ip->ip_dst.s_addr == p->ping_dest.sin_addr.s_addr
 		&& orig_ip->ip_p == IPPROTO_ICMP
 		&& orig_icmp->icmp_type == ICMP_ECHO
-		&& (ntohs (orig_icmp->icmp_id) == p->ping_ident || 1/*useless_ident*/) // TODO
+		&& (ntohs (orig_icmp->icmp_id) == p->ping_ident || p->ping_useless_ident)
 	);
 }
 
@@ -179,7 +179,7 @@ ping_recv (struct ping_data *p, unsigned int options)
 		// case ICMP_ADDRESSREPLY:
 		/*    case ICMP_ROUTERADV: */
 
-			if (ntohs (icmp->icmp_id) != p->ping_ident && /*useless_ident ==*/ 0) // TODO
+			if (ntohs (icmp->icmp_id) != p->ping_ident && p->ping_useless_ident == 0)
 				return -1;
 
 			if (rc)
