@@ -209,6 +209,9 @@ struct ping_data
 };
 
 void
+ping_reset(struct ping_data *p);
+
+void
 ping_unset_data(struct ping_data *p);
 
 int

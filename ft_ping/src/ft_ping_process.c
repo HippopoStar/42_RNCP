@@ -36,6 +36,7 @@ ping_process(t_args *args, int argc, char **argv, int *status)
 		*/
 		while (i < argc && (*status |= ping_echo(args, &p, argv[i])) < 2)
 		{
+			ping_reset(&p);
 			i++;
 		}
 	}

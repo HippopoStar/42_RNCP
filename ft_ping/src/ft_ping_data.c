@@ -10,6 +10,17 @@
 #include <stdlib.h>
 
 /*
+** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/libping.c;hb=HEAD#l128
+*/
+void
+ping_reset(struct ping_data *p)
+{
+	p->ping_num_xmit = 0;
+	p->ping_num_recv = 0;
+	p->ping_num_rept = 0;
+}
+
+/*
 ** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.c;hb=HEAD#l222
 */
 void
