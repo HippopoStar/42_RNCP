@@ -19,6 +19,7 @@ NAME = ft_ping
 HEADER = \
 	./include/ft_log.h \
 	./include/ft_memory.h \
+	./include/ft_misc.h \
 	./include/ft_ping_address.h \
 	./include/ft_ping_args_setup_teardown.h \
 	./include/ft_ping_args.h \
@@ -39,6 +40,7 @@ SRC_DIR = ./src
 SRC_NAME = \
 	ft_log.c \
 	ft_memory.c \
+	ft_misc.c \
 	ft_ping_address.c \
 	ft_ping_args_setup_teardown.c \
 	ft_ping_args.c \

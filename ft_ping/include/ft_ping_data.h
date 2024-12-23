@@ -256,16 +256,4 @@ ping_init(struct ping_data *p, int type, int ident);
 ** Included through <arpa/inet.h>
 */
 
-/*
-** nabs
-** nsqrt
-** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.h;hb=HEAD#l156
-** https://git.savannah.gnu.org/gitweb/?p=inetutils.git;a=blob;f=ping/ping_common.c;hb=HEAD#l106
-** Available through <math.h>: fabs, sqrt
-*/
-double
-nabs(double a);
-double
-nsqrt(double a, double prec);
-
 #endif /* FT_PING_DATA_H */

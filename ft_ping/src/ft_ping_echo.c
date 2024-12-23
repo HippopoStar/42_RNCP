@@ -1,5 +1,6 @@
 
 #include "ft_log.h"
+#include "ft_misc.h"
 #include "ft_ping_echo_display.h"
 #include "ft_ping_echo.h"
 #include "ft_ping_run.h"
